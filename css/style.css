@@ -651,24 +651,22 @@ img { display: block; }
   flex-shrink: 0;
 }
 
-/* Scroll wrapper — hides the horizontal scrollbar */
+/* Scroll wrapper */
 .tl-scroll {
   overflow-x: auto;
   overflow-y: visible;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
-  margin: 0 -64px;        /* bleed past container */
-  padding: 0 64px;
 }
 .tl-scroll::-webkit-scrollbar { display: none; }
 
-/* The track — 8 equal columns on desktop, scrollable on small screens */
+/* The track — 8 equal columns, min width ensures readability */
 .tl-track {
   display: grid;
-  grid-template-columns: repeat(8, minmax(160px, 1fr));
+  grid-template-columns: repeat(8, minmax(148px, 1fr));
   gap: 0;
   position: relative;
-  min-width: 960px;       /* forces scroll before collapsing */
+  width: 100%;
 }
 
 /* Horizontal connecting line at the dot row */
@@ -687,7 +685,7 @@ img { display: block; }
   display: flex;
   flex-direction: column;
   position: relative;
-  padding: 0 14px 0;
+  padding: 0 10px 32px;
 }
 /* Vertical connector from dot downward — subtle */
 .tl-item::after {
@@ -756,13 +754,14 @@ img { display: block; }
   line-height: 1.2;
 }
 .tl-body {
-  font-family: var(--mono);
-  font-size: 9px;
-  line-height: 1.7;
-  color: rgba(253,250,247,.38);
+  font-family: var(--cond);
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: rgba(253,250,247,.5);
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 5;
+  -webkit-line-clamp: 6;
   -webkit-box-orient: vertical;
 }
 .tl-tag {
@@ -1539,7 +1538,7 @@ footer::before {
   .org-bar, .organic-bar { padding: 18px 24px; flex-direction: column; gap: 8px; }
   .shout-left, .shout-right { padding: 52px 36px; }
   .giving-panel { padding: 56px 36px; }
-  .tl-scroll { margin: 0 -36px; padding: 0 36px; }
+  .tl-scroll { width: 100%; }
 }
 
 @media(max-width:640px){

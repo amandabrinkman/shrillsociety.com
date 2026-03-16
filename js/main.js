@@ -103,27 +103,29 @@ if (coverEl) {
 
 /* ── Timeline items: stagger fade-in left to right ──────── */
 const tlItems = document.querySelectorAll('.tl-item');
-const tlIO = new IntersectionObserver(entries => {
-  // All items animate together when the track enters view
-  if (entries.some(e => e.isIntersecting)) {
-    tlItems.forEach((item, i) => {
-      setTimeout(() => {
-        item.style.opacity = '1';
-        item.style.transform = 'none';
-      }, i * 60);
-    });
-    tlIO.disconnect();
-  }
-}, { threshold: 0.1 });
 
 tlItems.forEach(item => {
   item.style.opacity = '0';
-  item.style.transform = 'translateY(12px)';
+  item.style.transform = 'translateY(14px)';
   item.style.transition = 'opacity .5s ease, transform .5s ease';
 });
-// Observe the track container, not individual items
-const tlTrack = document.querySelector('.tl-track');
-if (tlTrack) tlIO.observe(tlTrack);
+
+// Observe the section — reliably enters viewport as user scrolls
+const tlSection = document.getElementById('timeline');
+if (tlSection) {
+  const tlIO = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting) {
+      tlItems.forEach((item, i) => {
+        setTimeout(() => {
+          item.style.opacity = '1';
+          item.style.transform = 'none';
+        }, i * 70);
+      });
+      tlIO.disconnect();
+    }
+  }, { threshold: 0.05 });
+  tlIO.observe(tlSection);
+}
 
 /* ── Image fallbacks: hide broken img wrappers ───────────── */
 document.querySelectorAll('img[data-fallback-hide]').forEach(img => {
