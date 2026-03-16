@@ -101,26 +101,29 @@ if (coverEl) {
   }, { passive: true });
 }
 
-/* ── Timeline items: stagger on reveal ──────────────────── */
+/* ── Timeline items: stagger fade-in left to right ──────── */
 const tlItems = document.querySelectorAll('.tl-item');
 const tlIO = new IntersectionObserver(entries => {
-  entries.forEach((e, i) => {
-    if (e.isIntersecting) {
+  // All items animate together when the track enters view
+  if (entries.some(e => e.isIntersecting)) {
+    tlItems.forEach((item, i) => {
       setTimeout(() => {
-        e.target.style.opacity = '1';
-        e.target.style.transform = 'none';
-      }, i * 80);
-      tlIO.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.05 });
+        item.style.opacity = '1';
+        item.style.transform = 'none';
+      }, i * 60);
+    });
+    tlIO.disconnect();
+  }
+}, { threshold: 0.1 });
 
 tlItems.forEach(item => {
   item.style.opacity = '0';
-  item.style.transform = 'translateY(16px)';
-  item.style.transition = 'opacity .6s ease, transform .6s ease';
-  tlIO.observe(item);
+  item.style.transform = 'translateY(12px)';
+  item.style.transition = 'opacity .5s ease, transform .5s ease';
 });
+// Observe the track container, not individual items
+const tlTrack = document.querySelector('.tl-track');
+if (tlTrack) tlIO.observe(tlTrack);
 
 /* ── Image fallbacks: hide broken img wrappers ───────────── */
 document.querySelectorAll('img[data-fallback-hide]').forEach(img => {

@@ -613,108 +613,166 @@ img { display: block; }
 }
 
 /* ────────────────────────────────────────────────────────
-   TIMELINE
+   TIMELINE — horizontal
 ──────────────────────────────────────────────────────── */
 .timeline { background: var(--indigo); color: var(--blush-lt); }
 
+.timeline-intro {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 32px;
+  margin-bottom: 56px;
+  flex-wrap: wrap;
+}
 .timeline-hed {
   font-family: var(--display);
-  font-size: clamp(44px, 5.5vw, 80px);
+  font-size: clamp(36px, 4.5vw, 60px);
   letter-spacing: .03em;
-  line-height: .9;
+  line-height: .92;
   color: var(--blush-lt);
-  margin-bottom: 64px;
+  margin-bottom: 0;
 }
-.timeline-hed em { color: var(--mauve); font-family: var(--cond); font-style: italic; font-size: .6em; display: block; }
+.timeline-hed em {
+  color: var(--mauve);
+  font-family: var(--cond);
+  font-style: italic;
+  font-size: .55em;
+  display: block;
+  margin-top: 4px;
+}
+.timeline-count {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: rgba(253,250,247,.3);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
 
-.tl-track {
-  position: relative;
-  display: grid;
-  gap: 0;
+/* Scroll wrapper — hides the horizontal scrollbar */
+.tl-scroll {
+  overflow-x: auto;
+  overflow-y: visible;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 -64px;        /* bleed past container */
+  padding: 0 64px;
 }
+.tl-scroll::-webkit-scrollbar { display: none; }
+
+/* The track — 8 equal columns on desktop, scrollable on small screens */
+.tl-track {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(160px, 1fr));
+  gap: 0;
+  position: relative;
+  min-width: 960px;       /* forces scroll before collapsing */
+}
+
+/* Horizontal connecting line at the dot row */
 .tl-track::before {
   content: '';
   position: absolute;
-  left: 128px;
-  top: 0; bottom: 0;
-  width: 1px;
+  left: 0; right: 0;
+  top: 82px;
+  height: 1px;
   background: rgba(253,250,247,.1);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .tl-item {
-  display: grid;
-  grid-template-columns: 128px 1fr;
-  gap: 0;
-  padding: 0 0 40px;
+  display: flex;
+  flex-direction: column;
   position: relative;
+  padding: 0 14px 0;
 }
-.tl-item:last-child { padding-bottom: 0; }
+/* Vertical connector from dot downward — subtle */
+.tl-item::after {
+  content: '';
+  position: absolute;
+  left: 50%; top: 86px;
+  width: 1px; height: 24px;
+  background: rgba(253,250,247,.07);
+  transform: translateX(-50%);
+}
 
+/* Date sits above the line, fixed height so all dots align */
 .tl-date {
-  padding-right: 32px;
-  text-align: right;
-  padding-top: 4px;
+  height: 82px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  text-align: center;
+  padding-bottom: 14px;
 }
 .tl-date-main {
   font-family: var(--display);
-  font-size: 19px;
+  font-size: 18px;
   color: var(--mauve);
   line-height: 1;
-  margin-bottom: 3px;
+  margin-bottom: 2px;
 }
 .tl-date-sub {
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 8px;
   letter-spacing: .14em;
   text-transform: uppercase;
-  color: rgba(253,250,247,.25);
+  color: rgba(253,250,247,.22);
 }
 
+/* Dot sits ON the line */
 .tl-dot {
   position: absolute;
-  left: 128px;
-  top: 8px;
-  width: 9px; height: 9px;
+  left: 50%;
+  top: 78px;
+  width: 8px; height: 8px;
   background: var(--mauve);
   border-radius: 50%;
   transform: translateX(-50%);
+  z-index: 1;
   transition: transform .25s, background .25s;
 }
-.tl-item:hover .tl-dot { transform: translateX(-50%) scale(1.5); background: var(--blush-lt); }
-
-.tl-content {
-  padding-left: 40px;
-  padding-bottom: 40px;
-  border-bottom: 1px solid rgba(253,250,247,.06);
+.tl-item:hover .tl-dot {
+  transform: translateX(-50%) scale(1.8);
+  background: var(--blush-lt);
 }
-.tl-item:last-child .tl-content { border-bottom: none; }
+
+/* Content below the line */
+.tl-content {
+  padding-top: 32px;
+  flex: 1;
+}
 
 .tl-title {
   font-family: var(--display);
-  font-size: clamp(20px, 2.2vw, 28px);
-  letter-spacing: .03em;
+  font-size: clamp(13px, 1.1vw, 15px);
+  letter-spacing: .04em;
   color: var(--blush-lt);
-  margin-bottom: 8px;
-  line-height: 1.1;
+  margin-bottom: 7px;
+  line-height: 1.2;
 }
 .tl-body {
-  font-family: var(--cond);
-  font-size: 15px;
-  font-weight: 300;
-  line-height: 1.75;
-  color: rgba(253,250,247,.48);
-  max-width: 560px;
+  font-family: var(--mono);
+  font-size: 9px;
+  line-height: 1.7;
+  color: rgba(253,250,247,.38);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
 }
 .tl-tag {
   display: inline-block;
   margin-top: 10px;
   font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: .16em;
+  font-size: 8px;
+  letter-spacing: .14em;
   text-transform: uppercase;
-  color: var(--mauve);
-  border: 1px solid rgba(179,145,172,.3);
-  padding: 4px 10px;
+  color: rgba(179,145,172,.6);
 }
 
 /* ────────────────────────────────────────────────────────
@@ -1481,9 +1539,7 @@ footer::before {
   .org-bar, .organic-bar { padding: 18px 24px; flex-direction: column; gap: 8px; }
   .shout-left, .shout-right { padding: 52px 36px; }
   .giving-panel { padding: 56px 36px; }
-  .tl-track::before { left: 100px; }
-  .tl-item { grid-template-columns: 100px 1fr; }
-  .tl-dot { left: 100px; }
+  .tl-scroll { margin: 0 -36px; padding: 0 36px; }
 }
 
 @media(max-width:640px){
