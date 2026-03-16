@@ -1194,16 +1194,35 @@ img { display: block; }
 }
 .ticker-track:hover { animation-play-state: paused; }
 .t-item {
-  font-family: var(--display);
-  font-size: 15px;
-  letter-spacing: .1em;
-  color: var(--blush-lt);
-  padding: 0 28px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 32px;
   border-right: 1px solid rgba(253,250,247,.1);
   flex-shrink: 0;
+  height: 56px;
+}
+.t-logo {
+  max-height: 22px;
+  max-width: 120px;
+  width: auto;
+  object-fit: contain;
+  /* invert to white so logos read on the dark indigo bg */
+  filter: brightness(0) invert(1);
+  opacity: .65;
+  transition: opacity .2s;
+  display: block;
+}
+.t-item:hover .t-logo { opacity: 1; }
+/* Text fallback if logo fails */
+.t-logo-fb {
+  font-family: var(--display);
+  font-size: 14px;
+  letter-spacing: .1em;
+  color: rgba(253,250,247,.65);
+  white-space: nowrap;
   transition: color .2s;
 }
-.t-item:hover { color: var(--mauve); }
+.t-item:hover .t-logo-fb { color: var(--mauve); }
 
 .press-cards {
   display: grid;

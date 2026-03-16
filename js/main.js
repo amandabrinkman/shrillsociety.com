@@ -127,6 +127,86 @@ if (tlSection) {
   tlIO.observe(tlSection);
 }
 
+/* ── Press ticker: build logo items dynamically ─────────── */
+const TICKER_PUBS = [
+  { name: 'The New York Times',  domain: 'nytimes.com'          },
+  { name: 'The Washington Post', domain: 'washingtonpost.com'   },
+  { name: 'Forbes',              domain: 'forbes.com'           },
+  { name: 'Vogue',               domain: 'vogue.com'            },
+  { name: "Harper's Bazaar",     domain: 'harpersbazaar.com'    },
+  { name: 'Teen Vogue',          domain: 'teenvogue.com'        },
+  { name: 'Allure',              domain: 'allure.com'           },
+  { name: 'People',              domain: 'people.com'           },
+  { name: 'Cosmopolitan',        domain: 'cosmopolitan.com'     },
+  { name: 'Refinery29',          domain: 'refinery29.com'       },
+  { name: 'The Cut',             domain: 'thecut.com'           },
+  { name: 'Glamour',             domain: 'glamour.com'          },
+  { name: 'Elle',                domain: 'elle.com'             },
+  { name: 'Hollywood Reporter',  domain: 'hollywoodreporter.com'},
+  { name: 'Reuters',             domain: 'reuters.com'          },
+  { name: 'USA Today',           domain: 'usatoday.com'         },
+  { name: 'Vice',                domain: 'vice.com'             },
+  { name: 'Bustle',              domain: 'bustle.com'           },
+  { name: 'BUST',                domain: 'bust.com'             },
+  { name: 'Marie Claire',        domain: 'marieclaire.com'      },
+  { name: 'SXSW',                domain: 'sxsw.com'             },
+  { name: 'NOLA.com',            domain: 'nola.com'             },
+  { name: 'HelloGiggles',        domain: 'hellogiggles.com'     },
+  { name: 'Brides',              domain: 'brides.com'           },
+  { name: 'AIGA',                domain: 'aiga.org'             },
+  { name: 'Cool Hunting',        domain: 'coolhunting.com'      },
+  { name: 'Racked',              domain: 'racked.com'           },
+  { name: 'Us Weekly',           domain: 'usmagazine.com'       },
+  { name: 'Autostraddle',        domain: 'autostraddle.com'     },
+  { name: 'UPROXX',              domain: 'uproxx.com'           },
+  { name: 'Stylist',             domain: 'stylist.co.uk'        },
+  { name: 'Yahoo!',              domain: 'yahoo.com'            },
+  { name: 'Glossy',              domain: 'glossy.co'            },
+  { name: 'Shape',               domain: 'shape.com'            },
+  { name: 'Huffington Post',     domain: 'huffpost.com'         },
+  { name: 'Elite Daily',         domain: 'elitedaily.com'       },
+  { name: 'The Daily Wire',      domain: 'dailywire.com'        },
+  { name: 'BuzzFeed',            domain: 'buzzfeed.com'         },
+  { name: 'Out',                 domain: 'out.com'              },
+];
+
+function buildTickerItem({ name, domain }) {
+  const span = document.createElement('span');
+  span.className = 't-item';
+
+  const img = document.createElement('img');
+  img.className = 't-logo';
+  img.src = `https://logo.clearbit.com/${domain}`;
+  img.alt = name;
+  img.setAttribute('aria-hidden', 'true');
+
+  const fb = document.createElement('span');
+  fb.className = 't-logo-fb';
+  fb.textContent = name;
+  fb.style.display = 'none';
+
+  // If logo fails, hide img and show text fallback
+  img.addEventListener('error', () => {
+    img.style.display = 'none';
+    fb.style.display = 'inline';
+  });
+
+  span.appendChild(img);
+  span.appendChild(fb);
+  return span;
+}
+
+const tickerTrack = document.querySelector('.ticker-track');
+if (tickerTrack) {
+  tickerTrack.innerHTML = '';
+  // Two copies for seamless loop
+  [0, 1].forEach(() => {
+    TICKER_PUBS.forEach(pub => {
+      tickerTrack.appendChild(buildTickerItem(pub));
+    });
+  });
+}
+
 /* ── Image fallbacks: hide broken img wrappers ───────────── */
 document.querySelectorAll('img[data-fallback-hide]').forEach(img => {
   img.addEventListener('error', () => {
