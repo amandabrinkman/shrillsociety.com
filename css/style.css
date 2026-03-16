@@ -46,6 +46,20 @@ body {
   line-height: 1.55;
   overflow-x: hidden;
 }
+
+/* ── Film grain — the single most evocative analog touch ── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+  opacity: 0.038;
+  mix-blend-mode: overlay;
+}
 img { display: block; }
 
 /* ── Shared utilities ──────────────────────────────────── */
@@ -229,6 +243,26 @@ img { display: block; }
   z-index: 2;
 }
 
+/* Inset publication frame — editorial yearbook cover */
+.cover-body::before {
+  content: '';
+  position: absolute;
+  top: 14px; right: 14px; bottom: 14px; left: 14px;
+  border: 1px solid rgba(253,250,247,.13);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Corner tick marks inside the frame */
+.cover-body::after {
+  content: '';
+  position: absolute;
+  top: 6px; right: 6px; bottom: 6px; left: 6px;
+  border: 1px solid rgba(253,250,247,.05);
+  pointer-events: none;
+  z-index: 0;
+}
+
 .cover-overline {
   font-family: var(--mono);
   font-size: 10px;
@@ -238,12 +272,28 @@ img { display: block; }
   margin-bottom: 36px;
   opacity: 0;
   animation: fadeIn .6s var(--ease) .1s forwards;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  z-index: 1;
+}
+.cover-overline::before,
+.cover-overline::after {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 1px;
+  background: rgba(253,250,247,.25);
+  flex-shrink: 0;
 }
 
 .cover-logo-wrap {
   margin-bottom: 0;
   opacity: 0;
   animation: fadeUp .8s var(--ease) .2s forwards;
+  position: relative;
+  z-index: 1;
 }
 .cover-logo-wrap img {
   width: clamp(200px, 28vw, 380px);
@@ -1578,6 +1628,77 @@ footer::before {
   transform: translateX(-50%);
 }
 .ch-rule { position: relative; }
+
+/* ── Subtle paper texture on light sections ─────────────── */
+.origin,
+.impact,
+.platform,
+.press,
+.products {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23p)' opacity='0.4'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+/* ── Section top-rule — printed page feel ───────────────── */
+.origin,
+.platform,
+.products {
+  border-top: 3px double var(--rule);
+}
+.press {
+  border-top: 3px double var(--blush-dk);
+}
+
+/* ── Masthead chapter label — rotated running head ─────── */
+.chapter {
+  position: relative;
+  overflow: visible;
+}
+
+/* ── Pull quote first-letter drop cap in origin ─────────── */
+.origin-cols p:first-child::first-letter {
+  font-family: var(--display);
+  font-size: 4.2em;
+  line-height: .75;
+  float: left;
+  margin-right: 6px;
+  color: var(--mauve);
+  padding-top: 4px;
+}
+
+/* ── "Candids" label above the photo strip ──────────────── */
+.strip-label {
+  background: var(--blush-lt);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  text-align: center;
+  padding: 7px 0;
+}
+.strip-label span {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: var(--stone);
+}
+
+/* ── Celeb section: voted-by attribution ────────────────── */
+.celeb-superlative {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: .14em;
+  color: var(--mauve);
+  font-style: italic;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+/* ── Stronger section-end rule ──────────────────────────── */
+.ticker-outer {
+  border-top: 1px solid var(--indigo);
+  border-bottom: 1px solid var(--indigo);
+}
 
 /* ────────────────────────────────────────────────────────
    ANIMATIONS
