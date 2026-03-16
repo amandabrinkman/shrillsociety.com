@@ -1229,46 +1229,61 @@ img { display: block; }
   display: grid;
   grid-template-columns: repeat(4,1fr);
   gap: 3px;
+  margin-top: 3px;
 }
+
+/* Cards alternate dark (indigo) / light (blush) */
 .pc {
-  background: var(--blush);
-  padding: 26px 24px;
-  border-top: 3px solid transparent;
-  border-left: 3px solid transparent;
-  transition: border-color .2s, border-left-color .2s, background .2s;
+  padding: 28px 24px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  justify-content: space-between;
+  min-height: 200px;
+  transition: opacity .2s;
 }
-.pc:hover { background: var(--white); border-top-color: var(--mauve); border-left-color: var(--mauve); }
+.pc:nth-child(odd)  { background: var(--indigo); }
+.pc:nth-child(even) { background: var(--blush); }
+.pc:hover { opacity: .88; }
 
-/* Publication logo row in press cards */
-.pc-logo-wrap {
+/* Quote — the hero of each card */
+.pc-quote {
+  font-family: var(--display);
+  font-size: clamp(17px, 1.6vw, 22px);
+  letter-spacing: .02em;
+  line-height: 1.15;
+  flex: 1;
+  margin-bottom: 20px;
+}
+.pc:nth-child(odd)  .pc-quote { color: var(--blush-lt); }
+.pc:nth-child(even) .pc-quote { color: var(--ink); }
+
+/* Attribution row — sits at the bottom */
+.pc-attr {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  padding-top: 14px;
 }
+.pc:nth-child(odd)  .pc-attr { border-top: 1px solid rgba(253,250,247,.12); }
+.pc:nth-child(even) .pc-attr { border-top: 1px solid var(--rule); }
+
 .pc-favicon {
-  width: 24px;
-  height: 24px;
-  border-radius: 5px;
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
   object-fit: contain;
   flex-shrink: 0;
+  opacity: .7;
 }
 .pc-pub-name {
-  font-family: var(--display);
-  font-size: 18px;
-  letter-spacing: .02em;
-  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
   line-height: 1;
 }
-.pc-line {
-  font-family: var(--mono);
-  font-size: 12px;
-  font-style: italic;
-  color: var(--stone);
-  line-height: 1.55;
-}
+.pc:nth-child(odd)  .pc-pub-name { color: var(--mauve); }
+.pc:nth-child(even) .pc-pub-name { color: var(--stone); }
 
 /* ────────────────────────────────────────────────────────
    GIVING
