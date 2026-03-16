@@ -174,25 +174,19 @@ function buildTickerItem({ name, domain }) {
   const span = document.createElement('span');
   span.className = 't-item';
 
+  // Google favicon API — reliable, no key needed
   const img = document.createElement('img');
-  img.className = 't-logo';
-  img.src = `https://logo.clearbit.com/${domain}`;
-  img.alt = name;
+  img.className = 't-favicon';
+  img.src = `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+  img.alt = '';
   img.setAttribute('aria-hidden', 'true');
 
-  const fb = document.createElement('span');
-  fb.className = 't-logo-fb';
-  fb.textContent = name;
-  fb.style.display = 'none';
-
-  // If logo fails, hide img and show text fallback
-  img.addEventListener('error', () => {
-    img.style.display = 'none';
-    fb.style.display = 'inline';
-  });
+  const label = document.createElement('span');
+  label.className = 't-name';
+  label.textContent = name;
 
   span.appendChild(img);
-  span.appendChild(fb);
+  span.appendChild(label);
   return span;
 }
 
