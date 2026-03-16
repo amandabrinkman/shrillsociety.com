@@ -1215,14 +1215,38 @@ img { display: block; }
   padding: 26px 24px;
   border-top: 3px solid transparent;
   transition: border-color .2s, background .2s;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 .pc:hover { background: var(--white); border-top-color: var(--mauve); }
-.pc-pub {
+
+/* Logo container — fixed height so all cards align */
+.pc-logo-wrap {
+  height: 36px;
+  display: flex;
+  align-items: center;
+}
+.pc-logo {
+  max-height: 30px;
+  max-width: 140px;
+  width: auto;
+  object-fit: contain;
+  object-position: left center;
+  filter: grayscale(1) contrast(1.1);
+  opacity: .75;
+  transition: opacity .2s, filter .2s;
+}
+.pc:hover .pc-logo {
+  filter: grayscale(0);
+  opacity: 1;
+}
+/* Fallback text if logo fails to load */
+.pc-pub-fb {
   font-family: var(--display);
-  font-size: 20px;
+  font-size: 18px;
   letter-spacing: .02em;
   color: var(--ink);
-  margin-bottom: 8px;
 }
 .pc-line {
   font-family: var(--mono);
